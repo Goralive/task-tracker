@@ -1,18 +1,21 @@
 package com.tasktracker.user;
 
-import com.tasktracker.task.Task;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class UserRepository implements UserDao {
-    private final AtomicLong id = new AtomicLong();
-    private final Map<Long, User> users = new HashMap<>();
+    private final AtomicLong id;
+    private final Map<Long, User> users;
+
+    public UserRepository(AtomicLong id, Map<Long, User> users) {
+        this.id = id;
+        this.users = users;
+    }
 
     @Override
     public User create(User user) {
@@ -22,16 +25,17 @@ public class UserRepository implements UserDao {
 
     @Override
     public User update(User user) {
-        return null;
+        users.put(user.getId(), user);
+        return user;
     }
 
     @Override
-    public Task getUser(Long id) {
-        return null;
+    public User getUserById(Long id) {
+        return users.get(id);
     }
 
     @Override
     public Collection<User> getAllUsers() {
-        return null;
+        return new ArrayList<>(users.values());
     }
 }

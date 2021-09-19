@@ -1,7 +1,5 @@
 package com.tasktracker.user;
 
-import com.tasktracker.task.Task;
-
 import java.util.Collection;
 
 public interface UserDao {
@@ -10,7 +8,7 @@ public interface UserDao {
 
     User update(final User user);
 
-    Task getUser(final Long id);
+    User getUserById(final Long id);
 
     Collection<User> getAllUsers();
 }

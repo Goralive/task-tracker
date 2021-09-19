@@ -1,7 +1,6 @@
 package com.tasktracker.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.tasktracker.user.User;
 
 public class Task {
     private Long id;
