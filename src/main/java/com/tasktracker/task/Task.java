@@ -1,5 +1,8 @@
 package com.tasktracker.task;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.tasktracker.user.User;
+
 public class Task {
     private Long id;
     private String title;
@@ -7,12 +10,12 @@ public class Task {
     private String reporter;
     private String assignee;
 
-    public Task(Long id, String title, String description, String reporter, String assignee) {
+    @JsonCreator
+    public Task(Long id, String title, String description, String reporter) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.reporter = reporter;
-        this.assignee = assignee;
     }
 
     public Long getId() {

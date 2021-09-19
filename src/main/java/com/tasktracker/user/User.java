@@ -1,11 +1,18 @@
 package com.tasktracker.user;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.tasktracker.task.Task;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class User {
     private Long id;
     private String name;
     private String email;
     private boolean deleted;
 
+    @JsonCreator
     public User(Long id, String name, String email) {
         this.id = id;
         this.name = name;
@@ -15,10 +22,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
