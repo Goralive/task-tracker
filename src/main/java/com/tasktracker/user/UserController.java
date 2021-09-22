@@ -3,7 +3,7 @@ package com.tasktracker.user;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("users")
 public class UserController {
 
     private final UserService service;
@@ -17,7 +17,8 @@ public class UserController {
         return service.create(user);
     }
 
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return service.update(id, user);
+    @PutMapping("/{userId}")
+    public User update(@PathVariable Long userId, @RequestBody User user) {
+        return service.update(userId, user);
     }
 }

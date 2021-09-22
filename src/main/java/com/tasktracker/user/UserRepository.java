@@ -30,9 +30,10 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public User update(User user) {
-        users.put(user.getId(), user);
-        log.debug("Update user {}", user);
+    public User update(Long id, User user) {
+        user.setId(id);
+        users.put(id, user);
+        log.debug("Updated user {} with data {}", id, user);
         return user;
     }
 

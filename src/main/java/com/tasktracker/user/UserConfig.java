@@ -20,7 +20,12 @@ public class UserConfig {
     }
 
     @Bean
-    public EmailValidation emailValidation(){
+    public EmailValidation emailValidation() {
         return new EmailValidation();
+    }
+
+    @Bean
+    public UserValidation userValidation() {
+        return new UserValidation();
     }
 }
