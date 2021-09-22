@@ -5,7 +5,7 @@ import java.util.Collection;
 public interface UserService {
     User create(User user);
 
-    User update(User user);
+    User update(Long id,User user);
 
     boolean deleteUserById(Long id);
 

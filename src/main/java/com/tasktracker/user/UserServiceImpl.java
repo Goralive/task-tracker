@@ -1,33 +1,36 @@
 package com.tasktracker.user;
 
 import com.tasktracker.exception.EmailException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserDao repository;
+    private final EmailValidation emailValidation;
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserRepository repository) {
+
+    public UserServiceImpl(UserRepository repository, EmailValidation emailValidation) {
         this.repository = repository;
+        this.emailValidation = emailValidation;
     }
 
     @Override
     public User create(User user) {
+        log.debug("Creating user {} with email {}", user.getName(), user.getEmail());
         String email = user.getEmail();
-        if (!isEmailRegistered(email)) {
-            return repository.create(user);
-        } else {
-            throw new EmailException("Email not unique");
-        }
+        emailValidation.isEmailRegistered(email, getAllUsers());
+        return repository.create(user);
     }
 
     @Override
-    public User update(User user) {
+    public User update(Long id, User user) {
+        log.debug("Update user {} with data {}", id, user);
+
         return null;
     }
 
@@ -46,13 +49,4 @@ public class UserServiceImpl implements UserService {
         return repository.getAllUsers();
     }
 
-    private boolean isEmailRegistered(String email) {
-        Pattern VALID_EMAIL_ADDRESS_REGEX =
-                Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-        if (matcher.find()) {
-            return getAllUsers().stream().anyMatch(e -> e.getEmail().equalsIgnoreCase(email));
-        }
-        throw new EmailException("Invalid email");
-    }
 }
