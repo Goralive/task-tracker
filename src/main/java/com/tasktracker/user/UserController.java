@@ -2,6 +2,9 @@ package com.tasktracker.user;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.List;
+
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -10,6 +13,11 @@ public class UserController {
 
     public UserController(UserService service) {
         this.service = service;
+    }
+
+    @GetMapping
+    public Collection<User> users() {
+        return service.getAllUsers();
     }
 
     @PostMapping
