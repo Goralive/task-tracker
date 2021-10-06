@@ -9,7 +9,7 @@ public interface UserService {
 
     void deleteUserById(Long id);
 
-    User getUserById(Long id);
+    UserTasks getUserById(Long id);
 
     Collection<User> getAllUsers();
 }

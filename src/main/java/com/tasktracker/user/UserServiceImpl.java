@@ -1,5 +1,6 @@
 package com.tasktracker.user;
 
+import com.tasktracker.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -57,8 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return null;
+    public UserTasks getUserById(Long id) {
+        log.debug("Get user by id {}", id);
+        User user = userValidation.isPresent(id);
+        List<Task> tasks = new ArrayList<>();
+
+        return new UserTasks(user, tasks);
     }
 
     @Override
