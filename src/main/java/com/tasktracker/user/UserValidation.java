@@ -2,13 +2,17 @@ package com.tasktracker.user;
 
 import com.tasktracker.exception.UserNotFoundException;
 
-import java.util.List;
-
 public class UserValidation {
-    public void isPresent(Long id, List<User> users) {
-        users
+    private final UserDao userDao;
+
+    public UserValidation(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public User isPresent(Long id) {
+        return userDao.getAllUsers()
                 .stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst().orElseThrow(() -> new UserNotFoundException("No user found"));
+                .filter(u -> u.getId().equals(id) && !u.isDeleted())
+                .findAny().orElseThrow(() -> new UserNotFoundException("No user found"));
     }
 }

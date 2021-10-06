@@ -8,19 +8,28 @@ import java.util.regex.Pattern;
 public class EmailValidation {
     private final Pattern emailRegex =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private final UserDao userDao;
 
-    public void isEmailRegistered(String email, List<User> users) {
-        users.stream()
-                .filter(user -> user.getEmail().equalsIgnoreCase(email))
+    public EmailValidation(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public EmailValidation isEmailRegistered(String email) {
+        isEmailValid(email);
+        userDao.getAllUsers()
+                .stream()
+                .filter(user -> user.getEmail().equalsIgnoreCase(email) && !user.isDeleted())
                 .findAny()
                 .ifPresent(e -> {
                     throw new EmailException("Email " + email + " not unique");
                 });
+        return this;
     }
 
-    public void isEmailValid(String email) {
+    public EmailValidation isEmailValid(String email) {
         if (!emailRegex.matcher(email).find()) {
             throw new EmailException("Invalid email " + email);
         }
+        return this;
     }
 }

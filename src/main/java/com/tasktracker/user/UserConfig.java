@@ -18,14 +18,4 @@ public class UserConfig {
     public Map<Long, User> userMap() {
         return new HashMap<>();
     }
-
-    @Bean
-    public EmailValidation emailValidation() {
-        return new EmailValidation();
-    }
-
-    @Bean
-    public UserValidation userValidation() {
-        return new UserValidation();
-    }
 }

@@ -7,7 +7,7 @@ public interface UserService {
 
     User update(Long id,User user);
 
-    boolean deleteUserById(Long id);
+    void deleteUserById(Long id);
 
     User getUserById(Long id);
 

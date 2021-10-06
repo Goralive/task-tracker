@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -15,33 +14,44 @@ public class UserServiceImpl implements UserService {
     private final UserValidation userValidation;
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-
-    public UserServiceImpl(UserRepository repository, EmailValidation emailValidation, UserValidation user) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.emailValidation = emailValidation;
-        this.userValidation = user;
+        this.userValidation = new UserValidation(this.repository);
+        this.emailValidation = new EmailValidation(this.repository);
     }
 
     @Override
     public User create(User user) {
         log.debug("Creating user {} with email {}", user.getName(), user.getEmail());
         String email = user.getEmail();
-        emailValidation.isEmailValid(email);
-        emailValidation.isEmailRegistered(email, getAllUsers());
+        emailValidation.isEmailValid(email)
+                .isEmailRegistered(email);
         return repository.create(user);
-}
+    }
 
     @Override
     public User update(Long id, User user) {
-        log.debug("Update user {} with data {}", id, user);
-        userValidation.isPresent(id, getAllUsers());
-        emailValidation.isEmailValid(user.getEmail());
+        User foundUser = userValidation.isPresent(id);
+        String email = user.getEmail();
+        String name = user.getName();
+
+        if (email == null) {
+            user.setEmail(foundUser.getEmail());
+        } else {
+            emailValidation.isEmailValid(user.getEmail());
+        }
+        if (name == null) {
+            user.setName(foundUser.getName());
+        }
+        log.debug("Update user {} with data {}", foundUser, user);
         return repository.update(id, user);
     }
 
     @Override
-    public boolean deleteUserById(Long id) {
-        return false;
+    public void deleteUserById(Long id) {
+        User user = userValidation.isPresent(id);
+        log.debug("Delete user {}", user);
+        user.setDeleted(true);
     }
 
     @Override
