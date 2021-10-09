@@ -12,17 +12,17 @@ public class TaskRepository implements TaskDao {
     }
 
     @Override
-    public Task update(Task task) {
+    public Task update(Long id, Task task) {
         return null;
     }
 
     @Override
-    public Task getTask(Long id) {
+    public Task getById(Long id) {
         return null;
     }
 
     @Override
-    public Collection<Task> getAllTasks() {
+    public Collection<Task> getAll() {
         return null;
     }
 }

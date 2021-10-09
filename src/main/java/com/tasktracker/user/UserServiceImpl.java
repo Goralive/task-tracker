@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
     public UserTasks getUserById(Long id) {
         log.debug("Get user by id {}", id);
         User user = userValidation.isPresent(id);
+        //TODO Temp data
         List<Task> tasks = new ArrayList<>();
 
         return new UserTasks(user, tasks);
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return repository.getAllUsers().stream().filter(u -> !u.isDeleted())
+        return repository.getAll().stream().filter(u -> !u.isDeleted())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

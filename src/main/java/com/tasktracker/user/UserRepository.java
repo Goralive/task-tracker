@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -38,13 +38,13 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getById(Long id) {
         log.info("Get user by id {}", id);
         return users.get(id);
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public Collection<User> getAll() {
         log.info("Getting all users. Size is {}", users.size());
         return new ArrayList<>(users.values());
     }

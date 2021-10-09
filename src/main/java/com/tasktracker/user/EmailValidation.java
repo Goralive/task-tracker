@@ -2,7 +2,6 @@ package com.tasktracker.user;
 
 import com.tasktracker.exception.EmailException;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class EmailValidation {
@@ -16,7 +15,7 @@ public class EmailValidation {
 
     public EmailValidation isEmailRegistered(String email) {
         isEmailValid(email);
-        userDao.getAllUsers()
+        userDao.getAll()
                 .stream()
                 .filter(user -> user.getEmail().equalsIgnoreCase(email) && !user.isDeleted())
                 .findAny()

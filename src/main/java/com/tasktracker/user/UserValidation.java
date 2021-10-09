@@ -10,7 +10,7 @@ public class UserValidation {
     }
 
     public User isPresent(Long id) {
-        return userDao.getAllUsers()
+        return userDao.getAll()
                 .stream()
                 .filter(u -> u.getId().equals(id) && !u.isDeleted())
                 .findAny().orElseThrow(() -> new UserNotFoundException("No user found"));
