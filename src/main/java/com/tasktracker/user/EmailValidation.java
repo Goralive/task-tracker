@@ -2,9 +2,11 @@ package com.tasktracker.user;
 
 import com.tasktracker.common.CommonDAO;
 import com.tasktracker.exception.EmailException;
+import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
 
+@Service
 public class EmailValidation {
     private final Pattern emailRegex =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);

@@ -18,7 +18,6 @@ public class TaskRepository implements CommonDAO<Task> {
         this.tasks = tasks;
     }
 
-
     @Override
     public Task create(Task task) {
         return null;

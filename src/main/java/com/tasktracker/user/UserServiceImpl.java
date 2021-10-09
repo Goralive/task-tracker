@@ -2,6 +2,7 @@ package com.tasktracker.user;
 
 import com.tasktracker.common.CommonDAO;
 import com.tasktracker.task.Task;
+import com.tasktracker.task.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final CommonDAO<User> repository;
-    private final EmailValidation emailValidation;
+    private final CommonDAO<User> users;
+    private final CommonDAO<Task> tasks;
+
     private final UserValidation userValidation;
+    private final EmailValidation emailValidation;
+
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
-        this.userValidation = new UserValidation(this.repository);
-        this.emailValidation = new EmailValidation(this.repository);
+    public UserServiceImpl(UserRepository users, TaskRepository tasks,
+                           UserValidation userValidation, EmailValidation emailValidation) {
+        this.users = users;
+        this.tasks = tasks;
+
+        this.userValidation = userValidation;
+        this.emailValidation = emailValidation;
     }
 
     @Override
@@ -30,7 +37,7 @@ public class UserServiceImpl implements UserService {
         String email = user.getEmail();
         emailValidation.isEmailValid(email)
                 .isEmailRegistered(email);
-        return repository.create(user);
+        return users.create(user);
     }
 
     @Override
@@ -48,7 +55,7 @@ public class UserServiceImpl implements UserService {
             user.setName(foundUser.getName());
         }
         log.debug("Update user {} with data {}", foundUser, user);
-        return repository.update(id, user);
+        return users.update(id, user);
     }
 
     @Override
@@ -62,15 +69,14 @@ public class UserServiceImpl implements UserService {
     public UserTasks getUserById(Long id) {
         log.debug("Get user by id {}", id);
         User user = userValidation.isPresent(id);
-        //TODO Temp data
-        List<Task> tasks = new ArrayList<>();
+
 
         return new UserTasks(user, tasks);
     }
 
     @Override
     public List<User> read() {
-        return repository.getAll().stream().filter(u -> !u.isDeleted())
+        return users.getAll().stream().filter(u -> !u.isDeleted())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserRepository implements CommonDAO<User> {
     private final AtomicLong aLong;
     private final Map<Long, User> users;
+
     private static final Logger log = LoggerFactory.getLogger(UserRepository.class);
 
     public UserRepository(AtomicLong aLong, Map<Long, User> users) {

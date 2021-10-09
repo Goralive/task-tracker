@@ -2,7 +2,9 @@ package com.tasktracker.user;
 
 import com.tasktracker.common.CommonDAO;
 import com.tasktracker.exception.UserNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserValidation {
     private final CommonDAO<User> userDao;
 

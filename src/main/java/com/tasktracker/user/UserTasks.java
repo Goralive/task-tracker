@@ -1,16 +1,15 @@
 package com.tasktracker.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.tasktracker.common.CommonDAO;
 import com.tasktracker.task.Task;
-
-import java.util.List;
 
 public class UserTasks {
     private User user;
-    private List<Task> tasks;
+    private CommonDAO<Task> tasks;
 
     @JsonCreator
-    public UserTasks(User user, List<Task> tasks) {
+    public UserTasks(User user, CommonDAO<Task> tasks) {
         this.user = user;
         this.tasks = tasks;
     }
@@ -23,11 +22,12 @@ public class UserTasks {
         this.user = user;
     }
 
-    public List<Task> getTasks() {
+
+    public CommonDAO<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(CommonDAO<Task> tasks) {
         this.tasks = tasks;
     }
 
