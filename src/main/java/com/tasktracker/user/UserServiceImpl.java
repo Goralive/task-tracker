@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
         log.debug("Get user by id {}", id);
         User user = userValidation.isPresent(id);
 
-
         return new UserTasks(user, tasks);
     }
 

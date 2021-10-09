@@ -10,14 +10,18 @@ import java.util.Collection;
 public class TaskServiceImpl implements TaskService {
     private final CommonDAO<User> users;
     private final CommonDAO<Task> tasks;
+    private final TaskValidation validation;
 
-    public TaskServiceImpl(CommonDAO<User> users, CommonDAO<Task> tasks) {
+    public TaskServiceImpl(CommonDAO<User> users, CommonDAO<Task> tasks, TaskValidation validation) {
         this.users = users;
         this.tasks = tasks;
+
+        this.validation = validation;
     }
 
     @Override
     public Task create(Task task) {
+        validation.createTask(task);
         return tasks.create(task);
     }
 

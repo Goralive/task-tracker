@@ -35,6 +35,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
     }
 
+    @ExceptionHandler(value = TaskException.class)
+    public ResponseEntity<Object> handleException(TaskException e) {
+        log.error("Task exception", e);
+        return new ResponseEntity<>(e.getMessage(), BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

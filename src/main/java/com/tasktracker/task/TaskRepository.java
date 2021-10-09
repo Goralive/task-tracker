@@ -11,19 +11,19 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TaskRepository implements CommonDAO<Task> {
-    private final AtomicLong aLong;
+    private final AtomicLong taskId;
     private final Map<Long, Task> tasks;
     private static final Logger log = LoggerFactory.getLogger(TaskRepository.class);
 
 
     public TaskRepository(AtomicLong aLong, Map<Long, Task> tasks) {
-        this.aLong = aLong;
+        this.taskId = aLong;
         this.tasks = tasks;
     }
 
     @Override
     public Task create(Task task) {
-        Long id = aLong.getAndIncrement();
+        Long id = taskId.getAndIncrement();
         task.setId(id);
         tasks.put(id, task);
         log.debug("Create task {}", task);
