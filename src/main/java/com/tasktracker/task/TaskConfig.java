@@ -1,6 +1,5 @@
 package com.tasktracker.task;
 
-import com.tasktracker.user.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -16,7 +16,7 @@ public class UserController {
 
     @GetMapping
     public Collection<User> users() {
-        return service.getAllUsers();
+        return service.read();
     }
 
     @GetMapping("/{userId}")
@@ -36,6 +36,6 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public void delete(@PathVariable Long userId) {
-        service.deleteUserById(userId);
+        service.delete(userId);
     }
 }

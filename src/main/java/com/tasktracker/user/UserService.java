@@ -1,15 +1,16 @@
 package com.tasktracker.user;
 
-import java.util.Collection;
+import com.tasktracker.common.CRUDService;
 
-public interface UserService {
-    User create(User user);
-
-    User update(Long id,User user);
-
-    void deleteUserById(Long id);
+public interface UserService extends CRUDService<User> {
+//    User create(User user);
+//
+//    Collection<User> read();
+//
+//    User update(Long id,User user);
+//
+//    void delete(Long id);
 
     UserTasks getUserById(Long id);
 
-    Collection<User> getAllUsers();
 }

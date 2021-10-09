@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void delete(Long id) {
         User user = userValidation.isPresent(id);
         log.debug("Delete user {}", user);
         user.setDeleted(true);
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> read() {
         return repository.getAll().stream().filter(u -> !u.isDeleted())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
