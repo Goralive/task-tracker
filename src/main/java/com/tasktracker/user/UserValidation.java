@@ -1,11 +1,12 @@
 package com.tasktracker.user;
 
+import com.tasktracker.common.CommonDAO;
 import com.tasktracker.exception.UserNotFoundException;
 
 public class UserValidation {
-    private final UserDao userDao;
+    private final CommonDAO<User> userDao;
 
-    public UserValidation(UserDao userDao) {
+    public UserValidation(CommonDAO<User> userDao) {
         this.userDao = userDao;
     }
 

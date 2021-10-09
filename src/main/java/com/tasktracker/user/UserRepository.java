@@ -1,5 +1,6 @@
 package com.tasktracker.user;
 
+import com.tasktracker.common.CommonDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class UserRepository implements UserDao {
+public class UserRepository implements CommonDAO<User> {
     private final AtomicLong aLong;
     private final Map<Long, User> users;
     private static final Logger log = LoggerFactory.getLogger(UserRepository.class);

@@ -1,5 +1,6 @@
 package com.tasktracker.user;
 
+import com.tasktracker.common.CommonDAO;
 import com.tasktracker.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserDao repository;
+    private final CommonDAO<User> repository;
     private final EmailValidation emailValidation;
     private final UserValidation userValidation;
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);

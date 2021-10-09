@@ -1,5 +1,6 @@
 package com.tasktracker.user;
 
+import com.tasktracker.common.CommonDAO;
 import com.tasktracker.exception.EmailException;
 
 import java.util.regex.Pattern;
@@ -7,9 +8,9 @@ import java.util.regex.Pattern;
 public class EmailValidation {
     private final Pattern emailRegex =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private final UserDao userDao;
+    private final CommonDAO<User> userDao;
 
-    public EmailValidation(UserDao userDao) {
+    public EmailValidation(CommonDAO<User> userDao) {
         this.userDao = userDao;
     }
 
