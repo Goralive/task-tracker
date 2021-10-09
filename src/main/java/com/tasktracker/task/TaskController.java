@@ -2,6 +2,8 @@ package com.tasktracker.task;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("tasks")
 public class TaskController {
@@ -12,7 +14,7 @@ public class TaskController {
     }
 
     @PostMapping()
-    public Task create(@RequestBody Task task) {
+    public Task create(@Valid @RequestBody Task task) {
         return taskService.create(task);
     }
 }

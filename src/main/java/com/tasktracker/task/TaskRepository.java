@@ -1,7 +1,8 @@
 package com.tasktracker.task;
 
 import com.tasktracker.common.CommonDAO;
-import com.tasktracker.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -12,6 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TaskRepository implements CommonDAO<Task> {
     private final AtomicLong aLong;
     private final Map<Long, Task> tasks;
+    private static final Logger log = LoggerFactory.getLogger(TaskRepository.class);
+
 
     public TaskRepository(AtomicLong aLong, Map<Long, Task> tasks) {
         this.aLong = aLong;
@@ -20,7 +23,11 @@ public class TaskRepository implements CommonDAO<Task> {
 
     @Override
     public Task create(Task task) {
-        return null;
+        Long id = aLong.getAndIncrement();
+        task.setId(id);
+        tasks.put(id, task);
+        log.debug("Create task {}", task);
+        return task;
     }
 
     @Override

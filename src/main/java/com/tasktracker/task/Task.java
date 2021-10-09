@@ -2,10 +2,16 @@ package com.tasktracker.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Task {
     private Long id;
+    @NotEmpty(message = "Title is mandatory")
     private String title;
+    @NotEmpty(message = "Description is mandatory")
     private String description;
+    @NotNull(message = "Reporter is mandatory")
     private Long reporter;
     private Long assignee;
 

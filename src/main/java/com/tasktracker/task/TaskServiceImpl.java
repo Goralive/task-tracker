@@ -17,8 +17,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task create(Task entity) {
-        return null;
+    public Task create(Task task) {
+        return tasks.create(task);
     }
 
     @Override
