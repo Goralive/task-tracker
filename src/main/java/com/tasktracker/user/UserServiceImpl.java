@@ -1,6 +1,7 @@
 package com.tasktracker.user;
 
 import com.tasktracker.common.CommonDAO;
+import com.tasktracker.exception.TaskException;
 import com.tasktracker.task.Task;
 import com.tasktracker.task.TaskRepository;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -69,8 +71,24 @@ public class UserServiceImpl implements UserService {
     public UserTasks getUserById(Long id) {
         log.debug("Get user by id {}", id);
         User user = userValidation.isPresent(id);
+        List<Task> taskList = tasks.getAll()
+                .stream()
+                .filter(t -> t.getAssignee().equals(user.getId()))
+                .collect(Collectors.toList());
 
-        return new UserTasks(user, tasks);
+        return new UserTasks(user, taskList);
+    }
+
+    @Override
+    public Task assignTask(Long userId, Long taskId) {
+        userValidation.isPresent(userId);
+        Task task = Optional.ofNullable(tasks.getById(taskId))
+                .map(task1 -> {
+                    task1.setAssignee(userId);
+                    return task1;
+                })
+                .orElseThrow(() -> new TaskException("No task was found. Task can't be assigned to user"));
+        return task;
     }
 
     @Override

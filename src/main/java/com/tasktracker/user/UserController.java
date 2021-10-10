@@ -1,11 +1,12 @@
 package com.tasktracker.user;
 
+import com.tasktracker.task.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService service;
@@ -32,6 +33,11 @@ public class UserController {
     @PutMapping("/{userId}")
     public User update(@PathVariable Long userId, @RequestBody User user) {
         return service.update(userId, user);
+    }
+
+    @PostMapping("/{userId}/tasks/{taskId}")
+    public Task assignTask(@PathVariable Long userId, @PathVariable Long taskId) {
+        return service.assignTask(userId, taskId);
     }
 
     @DeleteMapping("/{userId}")

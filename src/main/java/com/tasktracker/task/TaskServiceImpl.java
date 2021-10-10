@@ -1,6 +1,7 @@
 package com.tasktracker.task;
 
 import com.tasktracker.common.CommonDAO;
+import com.tasktracker.exception.TaskException;
 import com.tasktracker.user.User;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task create(Task task) {
-        validation.createTask(task);
+        validation.shouldCreateTask(task);
         return tasks.create(task);
     }
 
     @Override
     public Collection<Task> read() {
-        return null;
+        return tasks.getAll();
     }
 
     @Override
@@ -37,6 +38,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void delete(Long id) {
+        throw new TaskException("Tasks can't be deleted");
+    }
 
+    @Override
+    public void assignTask(Task task) {
+        task.setAssignee(task.getAssignee());
     }
 }

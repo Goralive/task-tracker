@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -37,11 +38,14 @@ public class TaskRepository implements CommonDAO<Task> {
 
     @Override
     public Task getById(Long id) {
-        return null;
+        log.info("Get task by id {}", id);
+        return tasks.get(id);
+
     }
 
     @Override
     public Collection<Task> getAll() {
-        return null;
+        log.info("Getting all tasks. Size is {}", tasks.size());
+        return new ArrayList<>(tasks.values());
     }
 }

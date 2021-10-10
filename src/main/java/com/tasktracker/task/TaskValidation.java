@@ -18,7 +18,7 @@ public class TaskValidation {
         this.users = users;
     }
 
-    public void createTask(Task task) {
+    public void shouldCreateTask(Task task) {
         if (isReporterDeleted(task)) {
             throw new TaskException("Reporter can't be set to the task. The user was deleted");
         }
