@@ -1,6 +1,5 @@
 package com.tasktracker.task;
 
-import com.tasktracker.user.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +27,11 @@ public class TaskController {
     @PostMapping()
     public Task create(@Valid @RequestBody Task task) {
         return taskService.create(task);
+    }
+
+    @PutMapping("/{taskId}")
+    public Task update(@PathVariable Long taskId, @RequestBody Task task) {
+        return taskService.update(taskId, task);
     }
 
     @DeleteMapping("/{taskId}")

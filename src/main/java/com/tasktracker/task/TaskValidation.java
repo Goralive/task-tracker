@@ -10,11 +10,9 @@ import java.util.Optional;
 
 @Service
 public class TaskValidation {
-    private final CommonDAO<Task> tasks;
     private final CommonDAO<User> users;
 
-    public TaskValidation(CommonDAO<Task> tasks, CommonDAO<User> users) {
-        this.tasks = tasks;
+    public TaskValidation(CommonDAO<User> users) {
         this.users = users;
     }
 

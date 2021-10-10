@@ -82,13 +82,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Task assignTask(Long userId, Long taskId) {
         userValidation.isPresent(userId);
-        Task task = Optional.ofNullable(tasks.getById(taskId))
+        return Optional.ofNullable(tasks.getById(taskId))
                 .map(task1 -> {
                     task1.setAssignee(userId);
                     return task1;
                 })
                 .orElseThrow(() -> new TaskException("No task was found. Task can't be assigned to user"));
-        return task;
     }
 
     @Override

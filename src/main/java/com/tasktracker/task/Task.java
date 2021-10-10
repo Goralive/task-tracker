@@ -51,10 +51,6 @@ public class Task {
         return reporter;
     }
 
-    public void setReporter(Long reporter) {
-        this.reporter = reporter;
-    }
-
     public Long getAssignee() {
         return assignee;
     }
