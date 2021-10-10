@@ -32,6 +32,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task getById(Long id) {
+        return tasks.getById(id);
+    }
+
+    @Override
     public Task update(Long id, Task entity) {
         return null;
     }
@@ -41,8 +46,4 @@ public class TaskServiceImpl implements TaskService {
         throw new TaskException("Tasks can't be deleted");
     }
 
-    @Override
-    public void assignTask(Task task) {
-        task.setAssignee(task.getAssignee());
-    }
 }

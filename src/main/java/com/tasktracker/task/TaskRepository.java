@@ -1,6 +1,7 @@
 package com.tasktracker.task;
 
 import com.tasktracker.common.CommonDAO;
+import com.tasktracker.exception.TaskException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -39,8 +41,9 @@ public class TaskRepository implements CommonDAO<Task> {
     @Override
     public Task getById(Long id) {
         log.info("Get task by id {}", id);
-        return tasks.get(id);
-
+        return Optional
+                .ofNullable(tasks.get(id))
+                .orElseThrow(() -> new TaskException("No task was found"));
     }
 
     @Override
