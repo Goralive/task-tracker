@@ -30,22 +30,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserTO create(UserTO userTO) {
-        UserEntity user = new UserEntity(userTO.id, userTO.name, userTO.email);
-        log.info("Creating user {} with email {}", user.getName(), user.getEmail());
-        userValidator.validateNew(user);
-        UserEntity saved = userRepository.create(user);
+        log.info("Creating user {} with email {}", userTO.name, userTO.email);
+        userValidator.validateNew(userTO);
+
+        UserEntity toSave = new UserEntity(userTO.id, userTO.name, userTO.email);
+
+        UserEntity saved = userRepository.create(toSave);
         return UserTO.fromEntity(saved);
     }
 
     @Override
-    public UserTO update(Long id, UserTO updateUserData) {
-        userValidator.checkUpdate(id, updateUserData);
-        UserEntity existing = userRepository.getById(id);
+    public UserTO update(Long id, UserTO requestedData) {
+        userValidator.checkUpdate(id, requestedData);
 
-        log.info("Update user {} with data {}", id, updateUserData);
-        UserEntity response = userRepository.update(id, existing);
-        return UserTO.fromEntity(response);
+        UserEntity toSave = updateUserEntity(userRepository.getById(id), requestedData);
+
+        log.info("Update user {} with data {}", id, toSave);
+        userRepository.update(id, toSave);
+        return UserTO.fromEntity(toSave);
     }
+
 
     @Override
     public void delete(Long id) {
@@ -74,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
         tasksById.setAssignee(userId);
         taskRepository.update(taskId, tasksById);
-        return new TaskTO(tasksById.getId(),tasksById.getTitle(),tasksById.getDescription(),1L,tasksById.getAssignee());
+        return new TaskTO(tasksById.getId(), tasksById.getTitle(), tasksById.getDescription(), 1L, tasksById.getAssignee());
     }
 
     @Override
@@ -82,4 +86,23 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    private UserEntity updateUserEntity(UserEntity existing, UserTO updateUserData) {
+        UserEntity entity = new UserEntity();
+
+        entity.setId(existing.getId());
+        if (updateUserData.name == null || updateUserData.name.isBlank()) {
+            entity.setName(existing.getName());
+        } else {
+            entity.setName(updateUserData.name);
+        }
+
+        if (updateUserData.email == null || updateUserData.email.isBlank()) {
+            entity.setEmail(existing.getEmail());
+        } else {
+            entity.setEmail(updateUserData.email);
+        }
+        entity.setDeleted(updateUserData.deleted);
+
+        return entity;
+    }
 }

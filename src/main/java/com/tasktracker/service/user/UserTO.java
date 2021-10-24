@@ -3,7 +3,6 @@ package com.tasktracker.service.user;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.tasktracker.repository.entity.UserEntity;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +11,6 @@ public class UserTO {
     @NotBlank
     public final String name;
     @NotNull
-    @Email
     public final String email;
     public final boolean deleted;
 
