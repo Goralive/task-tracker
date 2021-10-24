@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserTaskTO getUserWithTasksById(@PathVariable Long userId) {
-        return service.getUserByIdWithTasks(userId);
+        return service.getUserById(userId);
     }
 
     @PostMapping

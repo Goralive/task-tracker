@@ -6,9 +6,6 @@ import com.tasktracker.service.exception.EmailException;
 import com.tasktracker.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-
 @Service
 public class UserValidator {
     private final UserRepository userRepository;
@@ -29,15 +26,14 @@ public class UserValidator {
     }
 
     public void checkUpdate(Long requestedUserId, UserTO dataForUpdate) {
-        findUserById(requestedUserId);
+        findById(requestedUserId);
         isEmailRegistered(dataForUpdate.email);
     }
 
-    public UserEntity findUserById(Long id) {
+    public void findById(Long id) {
         UserEntity userEntity = userRepository.getById(id);
         if (userEntity == null || userEntity.isDeleted()) {
             throw new UserNotFoundException(id);
         }
-        return userEntity;
     }
 }

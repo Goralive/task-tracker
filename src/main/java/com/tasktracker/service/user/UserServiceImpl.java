@@ -49,22 +49,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        UserEntity user = userValidator.findUserById(id);
-        log.info("Delete user {}", user);
-        user.setDeleted(true);
-        userRepository.update(id, user);
+        userValidator.findById(id);
+
+        UserEntity existing = userRepository.getById(id);
+        log.info("Delete user {}", existing);
+        existing.setDeleted(true);
+        userRepository.update(existing.getId(), existing);
     }
 
-    public UserTaskTO getUserByIdWithTasks(Long id) {
+    @Override
+    public UserTaskTO getUserById(Long id) {
         log.info("Get user by id {}", id);
-        UserEntity user = userValidator.findUserById(id);
+        UserEntity user = userRepository.getById(id);
         List<TaskEntity> taskList = taskRepository.getByAssigneeId(id);
         return new UserTaskTO(user, taskList);
     }
 
     @Override
     public TaskTO assignTask(Long userId, Long taskId) {
-        userValidator.findUserById(userId);
+        userValidator.findById(userId);
         TaskEntity tasksById = taskRepository.getById(taskId);
         if (tasksById == null) {
             throw new TaskException(taskId);
