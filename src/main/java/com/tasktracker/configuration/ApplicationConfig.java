@@ -1,7 +1,7 @@
-package com.tasktracker.common;
+package com.tasktracker.configuration;
 
-import com.tasktracker.task.Task;
-import com.tasktracker.user.User;
+import com.tasktracker.repository.entity.TaskEntity;
+import com.tasktracker.repository.entity.UserEntity;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +21,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public Map<Long, User> userMap() {
+    public Map<Long, UserEntity> userMap() {
         return new HashMap<>();
     }
 
     @Bean
-    public Map<Long, Task> taskMap() {
+    public Map<Long, TaskEntity> taskMap() {
         return new HashMap<>();
     }
 }

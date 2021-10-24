@@ -1,8 +1,8 @@
-package com.tasktracker.common;
+package com.tasktracker.repository;
 
 import java.util.Collection;
 
-public interface CommonDAO<T> {
+public interface IRepository<T> {
 
     T create(final T entity);
 

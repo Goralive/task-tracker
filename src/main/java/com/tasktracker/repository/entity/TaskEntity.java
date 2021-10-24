@@ -1,22 +1,13 @@
-package com.tasktracker.task;
+package com.tasktracker.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-public class Task {
+public class TaskEntity {
     private Long id;
-    @NotEmpty(message = "Title is mandatory")
     private String title;
-    @NotEmpty(message = "Description is mandatory")
     private String description;
-    @NotNull(message = "Reporter is mandatory")
     private Long reporter;
     private Long assignee;
 
-    @JsonCreator
-    public Task(Long id, String title, String description, Long reporter) {
+    public TaskEntity(Long id, String title, String description, Long reporter) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -61,12 +52,12 @@ public class Task {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Task{");
+        final StringBuilder sb = new StringBuilder("TaskEntity{");
         sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", description='").append(description).append('\'');
-        sb.append(", reporter='").append(reporter).append('\'');
-        sb.append(", assignee='").append(assignee).append('\'');
+        sb.append(", reporter=").append(reporter);
+        sb.append(", assignee=").append(assignee);
         sb.append('}');
         return sb.toString();
     }

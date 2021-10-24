@@ -1,5 +1,8 @@
-package com.tasktracker.exception;
+package com.tasktracker.web;
 
+import com.tasktracker.service.exception.EmailException;
+import com.tasktracker.service.exception.TaskException;
+import com.tasktracker.service.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -31,13 +34,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = UserNotFoundException.class)
     public ResponseEntity<Object> handleException(UserNotFoundException e) {
-        log.error("User not found exception", e);
+        log.error("UserEntity not found exception", e);
         return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
     }
 
     @ExceptionHandler(value = TaskException.class)
     public ResponseEntity<Object> handleException(TaskException e) {
-        log.error("Task exception", e);
+        log.error("TaskEntity exception", e);
         return new ResponseEntity<>(e.getMessage(), BAD_REQUEST);
     }
 
@@ -47,7 +50,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> validationList = ex.getBindingResult().getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        log.info("Validation error list : {}", validationList);
+        log.error("Validation error list : {}", validationList);
         return new ResponseEntity<>(validationList, status);
     }
 }

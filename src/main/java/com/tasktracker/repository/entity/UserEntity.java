@@ -1,19 +1,23 @@
-package com.tasktracker.user;
+package com.tasktracker.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-public class User {
+public class UserEntity {
     private Long id;
     private String name;
     private String email;
     private boolean deleted;
 
-    @JsonCreator
-    public User(Long id, String name, String email) {
+    public UserEntity() {
+    }
+
+    public UserEntity(Long id, String name, String email) {
+        this(id, name, email, false);
+    }
+
+    public UserEntity(Long id, String name, String email, boolean deleted) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.deleted = false;
+        this.deleted = deleted;
     }
 
     public Long getId() {
@@ -48,9 +52,10 @@ public class User {
         this.deleted = deleted;
     }
 
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
+        final StringBuilder sb = new StringBuilder("UserEntity{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", email='").append(email).append('\'');
@@ -59,3 +64,4 @@ public class User {
         return sb.toString();
     }
 }
+
