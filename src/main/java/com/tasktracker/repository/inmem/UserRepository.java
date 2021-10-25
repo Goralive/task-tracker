@@ -1,5 +1,6 @@
 package com.tasktracker.repository.inmem;
 
+import com.tasktracker.configuration.Resettable;
 import com.tasktracker.repository.IRepository;
 import com.tasktracker.repository.entity.UserEntity;
 import org.slf4j.Logger;
@@ -12,17 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 @Repository
-public class UserRepository implements IRepository<UserEntity> {
+public class UserRepository implements IRepository<UserEntity>, Resettable {
     private static final Logger log = LoggerFactory.getLogger(UserRepository.class);
 
-    private final AtomicLong aLong = new AtomicLong();
+    private final AtomicLong counter = new AtomicLong();
     private final Map<Long, UserEntity> usersById = new HashMap<>();
     private final Map<String, UserEntity> usersByEmail = new HashMap<>();
 
     @Override
     public UserEntity create(UserEntity user) {
         if (user.getId() == null) {
-            Long id = aLong.incrementAndGet();
+            Long id = counter.incrementAndGet();
             user.setId(id);
         }
         usersById.put(user.getId(), user);
@@ -54,5 +55,12 @@ public class UserRepository implements IRepository<UserEntity> {
     public Collection<UserEntity> getAll() {
         log.info("Getting all users. Size is {}", usersById.size());
         return new ArrayList<>(usersById.values());
+    }
+
+    @Override
+    public void reset() {
+        counter.set(0);
+        usersById.clear();
+        usersByEmail.clear();
     }
 }

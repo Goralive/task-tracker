@@ -1,5 +1,6 @@
 package com.tasktracker.repository.inmem;
 
+import com.tasktracker.configuration.Resettable;
 import com.tasktracker.repository.IRepository;
 import com.tasktracker.repository.entity.TaskEntity;
 import org.slf4j.Logger;
@@ -11,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
-public class TaskRepository implements IRepository<TaskEntity> {
+public class TaskRepository implements IRepository<TaskEntity>, Resettable {
     private static final Logger log = LoggerFactory.getLogger(TaskRepository.class);
 
     private final AtomicLong counter = new AtomicLong();
@@ -58,5 +59,12 @@ public class TaskRepository implements IRepository<TaskEntity> {
 
     public TaskEntity assignTask(Long taskId, TaskEntity task) {
         return assignedTasks.put(taskId, task);
+    }
+
+    @Override
+    public void reset() {
+        counter.set(0);
+        tasksById.clear();
+        assignedTasks.clear();
     }
 }

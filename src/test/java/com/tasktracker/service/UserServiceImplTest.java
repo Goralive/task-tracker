@@ -1,2 +1,4 @@
-package com.tasktracker.service;public class UserServiceImplTest {
+package com.tasktracker.service;
+
+public class UserServiceImplTest {
 }

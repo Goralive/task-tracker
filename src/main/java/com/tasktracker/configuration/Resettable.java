@@ -1,2 +1,6 @@
-package com.tasktracker.configuration;public interface Resettable {
+package com.tasktracker.configuration;
+
+public interface Resettable {
+
+    void reset();
 }
