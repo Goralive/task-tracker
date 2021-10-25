@@ -1,6 +1,7 @@
 package com.tasktracker.service.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.tasktracker.repository.entity.TaskEntity;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,11 @@ public class TaskTO {
         sb.append(", assignee='").append(assignee).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public static TaskTO fromEntity(TaskEntity taskEntity) {
+        return new TaskTO(taskEntity.getId(), taskEntity.getTitle(), taskEntity.getDescription(),
+                taskEntity.getReporter(), taskEntity.getAssignee());
     }
 }
 

@@ -1,18 +1,17 @@
 package com.tasktracker.service.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.tasktracker.repository.entity.TaskEntity;
-import com.tasktracker.repository.entity.UserEntity;
+import com.tasktracker.service.task.TaskTO;
 
 import java.util.List;
 
 public class UserTaskTO {
 
-    public final UserEntity user;
-    public final List<TaskEntity> tasks;
+    public final UserTO user;
+    public final List<TaskTO> tasks;
 
     @JsonCreator
-    public UserTaskTO(UserEntity user, List<TaskEntity> tasks) {
+    public UserTaskTO(UserTO user, List<TaskTO> tasks) {
         this.user = user;
         this.tasks = tasks;
     }

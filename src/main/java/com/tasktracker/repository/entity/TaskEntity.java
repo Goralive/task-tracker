@@ -7,6 +7,14 @@ public class TaskEntity {
     private Long reporter;
     private Long assignee;
 
+    public TaskEntity(Long id, String title, String description, Long reporter, Long assignee) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.reporter = reporter;
+        this.assignee = assignee;
+    }
+
     public TaskEntity(Long id, String title, String description, Long reporter) {
         this.id = id;
         this.title = title;

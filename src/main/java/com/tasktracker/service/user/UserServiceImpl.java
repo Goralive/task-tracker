@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -42,7 +43,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserTO update(Long id, UserTO requestedData) {
         userValidator.checkUpdate(id, requestedData);
-
         UserEntity toSave = updateUserEntity(userRepository.getById(id), requestedData);
 
         log.info("Update user {} with data {}", id, toSave);
@@ -64,26 +64,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserTaskTO getUserById(Long id) {
         log.info("Get user by id {}", id);
-        UserEntity user = userRepository.getById(id);
-        List<TaskEntity> taskList = taskRepository.getByAssigneeId(id);
+        userValidator.findById(id);
+        UserTO user = UserTO.fromEntity(userRepository.getById(id));
+        List<TaskTO> taskList = taskRepository.getTasksByAssigneeId(id).stream()
+                .map(TaskTO::fromEntity)
+                .collect(Collectors.toList());
         return new UserTaskTO(user, taskList);
     }
 
     @Override
     public TaskTO assignTask(Long userId, Long taskId) {
         userValidator.findById(userId);
-        TaskEntity tasksById = taskRepository.getById(taskId);
-        if (tasksById == null) {
+        TaskEntity toSave = taskRepository.getById(taskId);
+        if (toSave == null) {
             throw new TaskException(taskId);
         }
-        tasksById.setAssignee(userId);
-        taskRepository.update(taskId, tasksById);
-        return new TaskTO(tasksById.getId(), tasksById.getTitle(), tasksById.getDescription(), 1L, tasksById.getAssignee());
+        toSave.setAssignee(userId);
+        TaskEntity saved = taskRepository.assignTask(taskId, toSave);
+        return TaskTO.fromEntity(saved);
     }
 
     @Override
     public List<UserTO> fetchAll() {
-        return null;
+        return userRepository.getAll().stream()
+                .map(UserTO::fromEntity)
+                .filter(u -> !u.deleted)
+                .collect(Collectors.toList());
     }
 
     private UserEntity updateUserEntity(UserEntity existing, UserTO updateUserData) {

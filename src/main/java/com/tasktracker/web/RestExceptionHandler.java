@@ -2,6 +2,7 @@ package com.tasktracker.web;
 
 import com.tasktracker.service.exception.EmailException;
 import com.tasktracker.service.exception.TaskException;
+import com.tasktracker.service.exception.TaskUpdateFieldValidationException;
 import com.tasktracker.service.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = TaskException.class)
     public ResponseEntity<Object> handleException(TaskException e) {
         log.error("TaskEntity exception", e);
+        return new ResponseEntity<>(e.getMessage(), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = TaskUpdateFieldValidationException.class)
+    public ResponseEntity<Object> handleException(TaskUpdateFieldValidationException e) {
+        log.error("TaskUpdateFieldValidationException exception", e);
         return new ResponseEntity<>(e.getMessage(), BAD_REQUEST);
     }
 
