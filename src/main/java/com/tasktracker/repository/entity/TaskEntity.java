@@ -16,10 +16,7 @@ public class TaskEntity {
     }
 
     public TaskEntity(Long id, String title, String description, Long reporter) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.reporter = reporter;
+        this(id, title, description, reporter, null);
     }
 
     public Long getId() {

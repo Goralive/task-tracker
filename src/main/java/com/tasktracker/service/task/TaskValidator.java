@@ -1,7 +1,10 @@
 package com.tasktracker.service.task;
 
+import com.tasktracker.repository.entity.TaskEntity;
 import com.tasktracker.repository.entity.UserEntity;
+import com.tasktracker.repository.inmem.TaskRepository;
 import com.tasktracker.repository.inmem.UserRepository;
+import com.tasktracker.service.exception.TaskException;
 import com.tasktracker.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +13,10 @@ import java.util.Optional;
 @Service
 public class TaskValidator {
     private final UserRepository users;
+    private final TaskRepository taskRepository;
 
-    public TaskValidator(UserRepository users) {
+    public TaskValidator(UserRepository users, TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
         this.users = users;
     }
 
@@ -27,5 +32,12 @@ public class TaskValidator {
         UserEntity user = Optional.ofNullable(users.getById(id))
                 .orElseThrow(() -> new UserNotFoundException(id));
         return user.isDeleted();
+    }
+
+    public TaskEntity checkUpdate(Long id) {
+            return Optional
+                    .ofNullable(taskRepository.getById(id))
+                    .orElseThrow(() -> new TaskException(id));
+
     }
 }

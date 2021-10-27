@@ -57,9 +57,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskTO update(Long id, TaskTO task) {
-        TaskEntity toSave = Optional
-                .ofNullable(taskRepository.getById(id))
-                .orElseThrow(() -> new TaskException(id));
+        TaskEntity toSave = validation.checkUpdate(id);
 
         String requestTitle = task.title;
         String requestDescription = task.description;

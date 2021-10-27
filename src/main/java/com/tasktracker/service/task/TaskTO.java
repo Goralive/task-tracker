@@ -5,6 +5,7 @@ import com.tasktracker.repository.entity.TaskEntity;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class TaskTO {
     public final Long id;
@@ -40,6 +41,21 @@ public class TaskTO {
     public static TaskTO fromEntity(TaskEntity taskEntity) {
         return new TaskTO(taskEntity.getId(), taskEntity.getTitle(), taskEntity.getDescription(),
                 taskEntity.getReporter(), taskEntity.getAssignee());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskTO taskTO = (TaskTO) o;
+        return id.equals(taskTO.id) && title.equals(taskTO.title)
+                && Objects.equals(description, taskTO.description)
+                && reporter.equals(taskTO.reporter) && Objects.equals(assignee, taskTO.assignee);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, reporter, assignee);
     }
 }
 
