@@ -6,9 +6,6 @@ import com.tasktracker.repository.inmem.TaskRepository;
 import com.tasktracker.repository.inmem.UserRepository;
 import com.tasktracker.service.exception.TaskException;
 import com.tasktracker.service.exception.UserNotFoundException;
-import com.tasktracker.service.task.TaskServiceImpl;
-import com.tasktracker.service.task.TaskTO;
-import com.tasktracker.service.task.TaskValidator;
 import org.junit.jupiter.api.AfterEach;
 
 import org.junit.jupiter.api.Test;
