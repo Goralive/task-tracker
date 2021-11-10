@@ -5,6 +5,8 @@ import com.tasktracker.repository.entity.UserEntity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
+
 
 public class UserTO {
     public final Long id;
@@ -39,5 +41,20 @@ public class UserTO {
         sb.append(", deleted=").append(deleted);
         sb.append('}');
         return sb.toString();
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserTO user = (UserTO) o;
+        return deleted == user.deleted && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, deleted);
     }
 }

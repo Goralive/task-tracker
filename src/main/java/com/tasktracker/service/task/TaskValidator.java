@@ -7,6 +7,7 @@ import com.tasktracker.repository.inmem.UserRepository;
 import com.tasktracker.service.exception.TaskException;
 import com.tasktracker.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -26,6 +27,12 @@ public class TaskValidator {
         } else if (task.assignee != null && isDeleted(task.assignee)) {
             throw new UserNotFoundException(task.assignee, "Assignee");
         }
+        if (task.title == null || task.title.isEmpty()) {
+            throw new TaskException("title");
+        }
+        if (task.description == null || task.description.isEmpty()) {
+            throw new TaskException("description");
+        }
     }
 
     private boolean isDeleted(Long id) {
@@ -35,9 +42,9 @@ public class TaskValidator {
     }
 
     public TaskEntity checkUpdate(Long id) {
-            return Optional
-                    .ofNullable(taskRepository.getById(id))
-                    .orElseThrow(() -> new TaskException(id));
+        return Optional
+                .ofNullable(taskRepository.getById(id))
+                .orElseThrow(() -> new TaskException(id));
 
     }
 }

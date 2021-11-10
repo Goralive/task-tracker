@@ -1,20 +1,22 @@
-package com.tasktracker.service;
+package com.tasktracker.service.task;
 
 import com.tasktracker.repository.entity.TaskEntity;
 import com.tasktracker.repository.entity.UserEntity;
 import com.tasktracker.repository.inmem.TaskRepository;
 import com.tasktracker.repository.inmem.UserRepository;
+import com.tasktracker.service.exception.TaskException;
+import com.tasktracker.service.exception.UserNotFoundException;
 import com.tasktracker.service.task.TaskServiceImpl;
 import com.tasktracker.service.task.TaskTO;
 import com.tasktracker.service.task.TaskValidator;
 import org.junit.jupiter.api.AfterEach;
-import org.assertj.core.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -69,5 +71,65 @@ public class TaskServiceImplTest {
         assertThat(captorTask.getValue())
                 .usingRecursiveComparison()
                 .isEqualTo(requestToService);
+    }
+
+    @Test
+    void failedTaskCreationMissingReporter() {
+        TaskTO request = new TaskTO(null, "No reporter", "Test desc", null, null);
+
+        assertThatThrownBy(() -> taskService.create(request))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found with id 'null'");
+        verify(taskRepository, never()).create(any());
+    }
+
+    @Test
+    void failedTaskCreationMissingTitle() {
+        when(userRepository.getById(1L))
+                .thenReturn(userOne);
+        TaskTO request = new TaskTO(null, null, "Test desc", 1L, null);
+
+        assertThatThrownBy(() -> taskService.create(request))
+                .isInstanceOf(TaskException.class)
+                .hasMessage("title is mandatory");
+        verify(taskRepository, never()).create(any());
+    }
+
+    @Test
+    void failedTaskCreationMissingDescription() {
+        when(userRepository.getById(1L))
+                .thenReturn(userOne);
+        TaskTO request = new TaskTO(null, "Test title", null, 1L, null);
+
+        assertThatThrownBy(() -> taskService.create(request))
+                .isInstanceOf(TaskException.class)
+                .hasMessage("description is mandatory");
+        verify(taskRepository, never()).create(any());
+    }
+
+    @Test
+    void failedTaskReporterNotFound() {
+        TaskTO request = new TaskTO(null, "Test title", null, 1L, null);
+
+        assertThatThrownBy(() -> taskService.create(request))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found with id '1'");
+        verify(taskRepository, never()).create(any());
+    }
+
+    @Test
+    void failedTaskReporterDeleted() {
+        TaskTO request = new TaskTO(null, "Test title", null, 1L, null);
+        UserEntity userDeleted =
+                new UserEntity(1L, "Deleted Test User", "at1Del@gmail.com", true);
+
+        when(userRepository.getById(1L))
+                .thenReturn(userDeleted);
+
+        assertThatThrownBy(() -> taskService.create(request))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("Reporter not found with id '1'");
+        verify(taskRepository, never()).create(any());
+
     }
 }
